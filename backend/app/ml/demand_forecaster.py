@@ -2,30 +2,42 @@
 # Description: Inference service leveraging the PyTorch Time Series Transformer for footfall and stockout hazard prediction
 
 import math
-import torch
+import logging
 import numpy as np
 from datetime import datetime, timedelta
 from typing import List, Dict, Any, Optional
-from app.ml.time_series_transformer import TimeSeriesTransformer
+
+logger = logging.getLogger("swasthya.ml.demand_forecaster")
+
+try:
+    import torch
+    from app.ml.time_series_transformer import TimeSeriesTransformer
+    TORCH_AVAILABLE = True
+except ImportError:
+    TORCH_AVAILABLE = False
+    logger.warning("PyTorch not available — DemandForecasterService will use linear fallback.")
 
 class DemandForecasterService:
     def __init__(self, forecast_horizon: int = 14, lookback_days: int = 30):
         self.forecast_horizon = forecast_horizon
         self.lookback_days = lookback_days
-        self.device = torch.device("cpu") # CPU is robust and fast for time series inference
         
-        # Initialize Transformer model architecture
-        self.model = TimeSeriesTransformer(
-            input_dim=4,
-            d_model=64,
-            nhead=4,
-            num_layers=3,
-            dim_feedforward=128,
-            forecast_horizon=forecast_horizon,
-            dropout=0.1
-        )
-        self.model.to(self.device)
-        self.model.eval()
+        if TORCH_AVAILABLE:
+            self.device = torch.device("cpu")
+            self.model = TimeSeriesTransformer(
+                input_dim=4,
+                d_model=64,
+                nhead=4,
+                num_layers=3,
+                dim_feedforward=128,
+                forecast_horizon=forecast_horizon,
+                dropout=0.1
+            )
+            self.model.to(self.device)
+            self.model.eval()
+        else:
+            self.device = None
+            self.model = None
 
     def _generate_synthetic_historical_series(
         self, 
@@ -55,28 +67,34 @@ class DemandForecasterService:
     ) -> Dict[str, Any]:
         """
         Executes Transformer forward pass to generate 14-day forecasts with 90% confidence bands.
+        Falls back to linear trend if PyTorch is not available.
         """
-        # Formulate historical feature matrix: [lookback, 4]
-        # features: [val_norm, day_of_week_norm, seasonal_norm, outbreak_flag]
         raw_history = self._generate_synthetic_historical_series(current_daily_rate)
         mean_scale = np.mean(raw_history) + 1e-5
         
-        feature_matrix = []
-        for t, val in enumerate(raw_history):
-            feature_matrix.append([
-                val / mean_scale,
-                (t % 7) / 7.0,
-                math.sin(2 * math.pi * t / 30.0),
-                1.0 if t > 24 else 0.0 # recent outbreak indicator
+        if TORCH_AVAILABLE and self.model is not None:
+            feature_matrix = []
+            for t, val in enumerate(raw_history):
+                feature_matrix.append([
+                    val / mean_scale,
+                    (t % 7) / 7.0,
+                    math.sin(2 * math.pi * t / 30.0),
+                    1.0 if t > 24 else 0.0
+                ])
+            tensor_in = torch.tensor([feature_matrix], dtype=torch.float32).to(self.device)
+            with torch.no_grad():
+                pred_mean, pred_std, memory = self.model(tensor_in)
+            pred_mean = pred_mean.squeeze(0).cpu().numpy() * mean_scale
+            pred_std = pred_std.squeeze(0).cpu().numpy() * (mean_scale * 0.15)
+        else:
+            # Linear fallback
+            x = np.arange(len(raw_history))
+            coeffs = np.polyfit(x, raw_history, 1)
+            pred_mean = np.array([
+                max(1.0, coeffs[0] * (len(raw_history) + i) + coeffs[1])
+                for i in range(self.forecast_horizon)
             ])
-            
-        tensor_in = torch.tensor([feature_matrix], dtype=torch.float32).to(self.device)
-        
-        with torch.no_grad():
-            pred_mean, pred_std, memory = self.model(tensor_in)
-            
-        pred_mean = pred_mean.squeeze(0).cpu().numpy() * mean_scale
-        pred_std = pred_std.squeeze(0).cpu().numpy() * (mean_scale * 0.15)
+            pred_std = np.ones(self.forecast_horizon) * (np.std(raw_history) * 0.15)
         
         # Build timestamped response
         today = datetime.utcnow()
