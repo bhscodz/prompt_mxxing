@@ -46,11 +46,12 @@ function NavItem({ to, icon: Icon, label, badge, badgeColor }) {
       {({ isActive }) => (
         <>
           <div className="flex items-center gap-3">
-            <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-slate-400'}`} />
+            <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-slate-400'}`} aria-hidden="true" />
             <span className="truncate">{label}</span>
           </div>
           {badge > 0 && (
             <span
+              aria-label={`${badge} ${label} notifications`}
               className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${
                 isActive
                   ? 'bg-white/20 text-white'
@@ -93,7 +94,11 @@ export default function Sidebar({ counts = {} }) {
   const { t } = useLanguage();
 
   return (
-    <aside className="w-64 bg-white border-r border-slate-200 flex flex-col shrink-0 min-h-[calc(100vh-4rem)]">
+    <aside
+      className="w-64 bg-white border-r border-slate-200 flex flex-col shrink-0 min-h-[calc(100vh-4rem)]"
+      aria-label="Main navigation"
+      role="navigation"
+    >
       <div className="p-4 space-y-0.5">
 
         {/* ── Group 1: Core Management ─────────────────────────────── */}

@@ -140,7 +140,7 @@ function AppShell() {
         <Sidebar counts={badgeCounts} />
 
         {/* Content Panel — react-router renders page components here */}
-        <main className="flex-1 p-6 overflow-y-auto">
+        <main id="main-content" className="flex-1 p-6 overflow-y-auto" role="main">
           <Routes>
             {/* Default: redirect / to /dashboard */}
             <Route path="/" element={<Navigate to="/dashboard" replace />} />

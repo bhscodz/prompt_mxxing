@@ -124,67 +124,130 @@ The platform must model each hospital/centre as an autonomous **Single Node** in
 
 Any agent continuing this project should follow this sequence:
 
-### Priority 1: Auth, Security & RBAC Completion
-- [ ] Create `backend/app/core/security.py`:
-  - Password hashing with bcrypt.
-  - JWT creation & decoding (`python-jose`).
-  - FastAPI dependency `get_current_user` and `require_roles(["SUPER_ADMIN", "FACILITY_ADMIN", ...])`.
-- [ ] Create `backend/app/api/auth.py`:
-  - `POST /api/v1/auth/login` (returns JWT + user details).
-  - `POST /api/v1/auth/register` (admin only).
-  - `GET /api/v1/auth/me` (profile).
-  - `POST /api/v1/auth/refresh` & `POST /api/v1/auth/logout`.
-- [ ] Create frontend auth services:
-  - `frontend/src/services/authService.js`
-  - `frontend/src/context/AuthContext.jsx`
-  - `frontend/src/components/ProtectedRoute.jsx`
-  - `frontend/src/pages/LoginPage.jsx`
+## ✅ Completed Tasks (Phase 2 Full Stack)
 
-### Priority 2: PatchTST, Model Router & Dual Alert Engine
-- [ ] Create `backend/app/ml/patchtst.py`:
-  - PyTorch implementation of PatchTST (Patching, Transformer Encoder, Linear Head).
-  - Train/Predict wrappers with standard confidence interval output.
-- [ ] Create `backend/app/ml/forecast_router.py`:
-  - Analyze data length and variance.
-  - Route to PatchTST (if n >= 60), XGBoost (if n >= 30), or ARIMA (if n >= 14).
-- [ ] Create `backend/app/ml/alert_engine.py`:
-  - **Type 1 (Real-Time Depletion)**: Evaluates current stock against daily consumption rate.
-  - **Type 2 (Forecasted Depletion with ETA)**: Evaluates projected run-out date vs PurchaseOrder expected delivery date.
-- [ ] Create `backend/app/api/forecasting.py`:
-  - Expose medicine, footfall, and bed forecasts.
-  - Expose `/api/v1/forecast/run-alerts/{facility_id}`.
-- [ ] Create `frontend/src/pages/ForecastingPage.jsx`:
-  - Recharts ComposedChart with confidence intervals.
-  - Dual-mode alert cards (Real-time vs Forecasted ETA).
+### ✅ Priority 1: Auth, Security & RBAC Completion
+- [x] Created `backend/app/core/security.py`:
+  - [x] Password hashing with bcrypt.
+  - [x] JWT creation & decoding (`python-jose`).
+  - [x] FastAPI dependency `get_current_user` and `require_roles(["SUPER_ADMIN", "FACILITY_ADMIN", ...])`.
+- [x] Created `backend/app/api/auth.py`:
+  - [x] `POST /api/v1/auth/login` (returns JWT + user details).
+  - [x] `POST /api/v1/auth/register` (admin only).
+  - [x] `GET /api/v1/auth/me` (profile).
+  - [x] `POST /api/v1/auth/refresh` & `POST /api/v1/auth/logout`.
+- [x] Created frontend auth services:
+  - [x] `frontend/src/services/authService.js`
+  - [x] `frontend/src/context/AuthContext.jsx`
+  - [x] `frontend/src/components/ProtectedRoute.jsx`
+  - [x] `frontend/src/pages/LoginPage.jsx`
 
-### Priority 3: LangGraph Multilingual AI Agent
-- [ ] Create `backend/app/ai_agent/agent.py`:
-  - LangGraph StateGraph workflow:
-    - Node 1: `detect_language` (langdetect / regex fallback).
-    - Node 2: `classify_intent` (Inventory, Footfall, Staff, Beds, Alerts, Economics).
-    - Node 3: `query_data` (Async SQLAlchemy query to node database).
-    - Node 4: `format_response` (Dictionary templates in 6 languages or OpenAI GPT-4o-mini).
-- [ ] Create `backend/app/api/ai_agent.py`:
-  - `POST /api/v1/agent/chat`
-  - `WebSocket /ws/agent-chat`
-- [ ] Create `frontend/src/pages/AIAgentChat.jsx`:
-  - Conversational UI with quick prompt chips in all 6 languages.
+### ✅ Priority 2: PatchTST, Model Router & Dual Alert Engine
+- [x] Created `backend/app/ml/patchtst.py`:
+  - [x] PyTorch implementation of PatchTST (Patching, Transformer Encoder, Linear Head).
+  - [x] Train/Predict wrappers with standard confidence interval output.
+- [x] Created `backend/app/ml/forecast_router.py`:
+  - [x] Analyze data length and variance.
+  - [x] Route to PatchTST (if n >= 60), XGBoost (if n >= 30), or ARIMA (if n >= 14).
+- [x] Created `backend/app/ml/alert_engine.py`:
+  - [x] **Type 1 (Real-Time Depletion)**: Evaluates current stock against daily consumption rate.
+  - [x] **Type 2 (Forecasted Depletion with ETA)**: Evaluates projected run-out date vs PurchaseOrder expected delivery date.
+- [x] Created `backend/app/api/forecasting.py`:
+  - [x] Expose medicine, footfall, and bed forecasts.
+  - [x] Expose `/api/v1/forecast/run-alerts/{facility_id}`.
+- [x] Created `frontend/src/pages/ForecastingPage.jsx`:
+  - [x] Recharts ComposedChart with confidence intervals.
+  - [x] Dual-mode alert cards (Real-time vs Forecasted ETA).
 
-### Priority 4: Economics Dashboard Frontend
-- [ ] Create `frontend/src/pages/EconomicsDashboard.jsx`:
-  - KPI Cards: Total Budget, Total Spent, Remaining, Burn Rate.
-  - Recharts: Budget vs Actual by category.
-  - Purchase Orders table with ETA tracking.
+### ✅ Priority 3: LangGraph Multilingual AI Agent
+- [x] Created `backend/app/ai_agent/agent.py`:
+  - [x] LangGraph StateGraph workflow:
+    - [x] Node 1: `detect_language` (langdetect / regex fallback).
+    - [x] Node 2: `classify_intent` (Inventory, Footfall, Staff, Beds, Alerts, Economics).
+    - [x] Node 3: `query_data` (Async SQLAlchemy query to node database).
+    - [x] Node 4: `format_response` (Dictionary templates in 6 languages or OpenAI GPT-4o-mini).
+- [x] Created `backend/app/api/ai_agent.py`:
+  - [x] `POST /api/v1/agent/chat`
+  - [x] `WebSocket /ws/agent-chat`
+- [x] Created `frontend/src/pages/AIAgentChat.jsx`:
+  - [x] Conversational UI with quick prompt chips in all 6 languages.
 
-### Priority 5: Full Integration & Seeding
-- [ ] Update `backend/app/models/__init__.py` to import and export all Phase 2 models.
-- [ ] Update `backend/app/main.py` to register all new routers (`auth`, `leave_management`, `economics`, `forecasting`, `ai_agent`).
-- [ ] Update `backend/app/utils/seed_data.py`:
-  - Seed default users with roles (Admin, Doctor, Pharmacist, Receptionist).
-  - Seed leave types, sample leave requests, budget allocations, and purchase orders.
-- [ ] Update `frontend/src/App.jsx` and `Sidebar.jsx`:
-  - Add navigation links for Leave Management, Forecasting, AI Assistant, and Economics.
-  - Configure protected routing.
+### ✅ Priority 4: Economics Dashboard Frontend
+- [x] Created `frontend/src/pages/EconomicsDashboard.jsx`:
+  - [x] KPI Cards: Total Budget, Total Spent, Remaining, Burn Rate.
+  - [x] Recharts: Budget vs Actual by category.
+  - [x] Purchase Orders table with ETA tracking.
+
+### ✅ Priority 5: Full Integration & Seeding
+- [x] Updated `backend/app/models/__init__.py` to import and export all Phase 2 models.
+- [x] Updated `backend/app/main.py` to register all new routers (`auth`, `leave_management`, `economics`, `forecasting`, `ai_agent`).
+- [x] Updated `backend/app/utils/seed_data.py`:
+  - [x] Seed default users with roles (Admin, Doctor, Pharmacist, Receptionist).
+  - [x] Seed leave types, sample leave requests, budget allocations, and purchase orders.
+- [x] Updated `frontend/src/App.jsx` and `Sidebar.jsx`:
+  - [x] Add navigation links for Leave Management, Forecasting, AI Assistant, and Economics.
+  - [x] Configure protected routing.
+
+### ✅ Priority 6: Testing & Quality Assurance
+- [x] Created comprehensive backend test suite (82 tests, 100% pass):
+  - [x] `backend/tests/test_security.py` — JWT, bcrypt, RBAC (23 tests)
+  - [x] `backend/tests/test_ml_models.py` — PatchTST, XGBoost, ARIMA, ForecastRouter, AlertEngine (32 tests)
+  - [x] `backend/tests/test_schemas.py` — Pydantic validation, enums, AI agent (27 tests)
+  - [x] `pytest.ini` — pytest configuration
+  - [x] `backend/tests/conftest.py` — shared fixtures
+  - [x] `backend/requirements-test.txt` — test dependencies
+- [x] Fixed bcrypt compatibility issues (graceful SHA-256 fallback)
+- [x] Added `compute_facility_distress_score` public function to `anomaly_flagging.py`
+- [x] Updated README with comprehensive documentation:
+  - [x] ML model performance benchmarks
+  - [x] Dataset details (synthetic PHC data + HMIS references)
+  - [x] Architecture diagrams (system, data flow, ML pipeline, AI agent workflow)
+  - [x] Full project structure tree
+  - [x] HFDI formula and thresholds
+  - [x] Haversine redistribution matrix
+  - [x] API reference
+  - [x] Contributing guidelines
+
+## 🚧 Remaining Tasks (Quality & Polish)
+
+### Priority A: Accessibility Improvements (Target Score: 90+)
+- [ ] Add ARIA labels to all interactive components:
+  - [ ] Update `StatCard.jsx` — add `aria-label` to icon containers
+  - [ ] Update `Navbar.jsx` — add `aria-label` to WebSocket status, facility dropdown
+  - [ ] Update `AlertBanner.jsx` — add `role="alert"` and `aria-live="assertive"`
+  - [ ] Update `LanguageSelector.jsx` — add `aria-expanded` and `aria-haspopup`
+  - [ ] Update `Sidebar.jsx` — add `aria-current="page"` to active links
+- [ ] Add semantic HTML improvements:
+  - [ ] Ensure all forms have associated labels
+  - [ ] Add `<main>`, `<nav>`, `<aside>` landmarks where missing
+  - [ ] Add skip-to-content link in App.jsx
+
+### Priority B: Security Hardening (Target Score: 95+)
+- [ ] Add Content Security Policy headers to Nginx config
+- [ ] Add rate limiting middleware to FastAPI (10 req/sec login, 100 req/sec API)
+- [ ] Add CSRF token validation for state-changing operations
+- [ ] Add helmet.js equivalent security headers
+- [ ] Add input sanitization to all text fields (XSS prevention)
+- [ ] Document security best practices in SECURITY.md
+
+### Priority C: Code Quality Enhancements (Target Score: 95+)
+- [ ] Add comprehensive docstrings to all public functions (Google style)
+- [ ] Add type hints to all function signatures (Python 3.10+ style)
+- [ ] Add JSDoc comments to all React components
+- [ ] Run ESLint on frontend and fix warnings
+- [ ] Run Black formatter on backend Python code
+- [ ] Add pre-commit hooks (black, isort, flake8, eslint)
+
+### Priority D: Documentation & Deployment
+- [ ] Create 3 Jupyter notebooks:
+  - [ ] `notebooks/01_PatchTST_Training.ipynb`
+  - [ ] `notebooks/02_XGBoost_Training.ipynb`
+  - [ ] `notebooks/03_ARIMA_Baseline.ipynb`
+- [ ] Add SECURITY.md with vulnerability reporting process
+- [ ] Add CONTRIBUTING.md with development setup guide
+- [ ] Add GitHub Actions CI/CD workflow (.github/workflows/ci.yml)
+- [ ] Add Docker Compose production config (docker-compose.prod.yml)
+- [ ] Add Kubernetes deployment manifests (k8s/)
 
 ---
 

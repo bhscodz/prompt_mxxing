@@ -26,11 +26,13 @@ except ImportError:  # pragma: no cover
 try:
     from passlib.context import CryptContext
     _pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+    # Quick sanity-check — some bcrypt builds raise on init
+    _pwd_context.hash("probe")
     BCRYPT_AVAILABLE = True
-except ImportError:  # pragma: no cover
+except Exception:  # pragma: no cover
     BCRYPT_AVAILABLE = False
     _pwd_context = None
-    logger.warning("passlib not installed; password hashing will use SHA-256 fallback.")
+    logger.warning("passlib/bcrypt unavailable; password hashing will use SHA-256 fallback.")
 
 from app.config import settings
 from app.database import get_db

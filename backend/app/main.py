@@ -32,6 +32,13 @@ from app.api.forecasting import router as forecasting_router
 from app.api.ai_agent import router as agent_router, agent_ws_router
 from app.api.economics import router as economics_router
 
+# ── Security Middleware ────────────────────────────────────────────────────────
+from app.core.middleware import (
+    SecurityHeadersMiddleware,
+    RequestIDMiddleware,
+    RateLimitMiddleware,
+)
+
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
@@ -73,6 +80,11 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# ── Security Hardening Middleware (innermost → outermost execution order) ──────
+app.add_middleware(SecurityHeadersMiddleware)   # Adds security response headers
+app.add_middleware(RequestIDMiddleware)         # X-Request-ID tracing
+app.add_middleware(RateLimitMiddleware)         # Token-bucket rate limiting
 
 # ── Register REST Routers ──────────────────────────────────────────────────────
 api_prefix = settings.API_V1_STR

@@ -111,3 +111,50 @@ class DistressEvaluationEngine:
 
 distress_evaluator = DistressEvaluationEngine()
 
+
+
+# ---------------------------------------------------------------------------
+# Public pure-function helper (used by tests and API layers directly)
+# ---------------------------------------------------------------------------
+
+def compute_facility_distress_score(
+    critical_stockouts: int,
+    total_medicines: int,
+    absent_specialists: int,
+    mandated_specialists: int,
+    occupied_beds: int,
+    total_beds: int,
+    broken_tests: int,
+    total_tests: int,
+) -> float:
+    """
+    Compute the Health Facility Distress Index (HFDI) as a 0–100 float.
+
+    Formula:
+        HFDI = 0.35 * stock_pct + 0.30 * staff_pct + 0.20 * bed_pct + 0.15 * diag_pct
+
+    Args:
+        critical_stockouts:  Number of medicines at critical level.
+        total_medicines:     Total medicines tracked.
+        absent_specialists:  Number of mandated specialists absent.
+        mandated_specialists: Total mandated specialist positions.
+        occupied_beds:       Number of occupied beds.
+        total_beds:          Total beds.
+        broken_tests:        Number of non-functional diagnostic tests.
+        total_tests:         Total diagnostic tests tracked.
+
+    Returns:
+        float: HFDI score 0 (healthy) to 100 (critical distress).
+    """
+    stock_pct = (critical_stockouts / max(1, total_medicines)) * 100
+    staff_pct = (absent_specialists / max(1, mandated_specialists)) * 100
+    bed_pct   = (occupied_beds / max(1, total_beds)) * 100
+    diag_pct  = (broken_tests / max(1, total_tests)) * 100
+
+    hfdi = (
+        0.35 * stock_pct +
+        0.30 * staff_pct +
+        0.20 * bed_pct   +
+        0.15 * diag_pct
+    )
+    return round(min(100.0, max(0.0, hfdi)), 2)

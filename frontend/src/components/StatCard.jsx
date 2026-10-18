@@ -1,5 +1,6 @@
 // File: frontend/src/components/StatCard.jsx
 // Description: Stat and KPI card component with color accents and status tags
+// Accessibility: aria-label on card, aria-hidden on decorative icons
 
 import React from 'react';
 
@@ -20,14 +21,24 @@ export default function StatCard({ title, value, subtitle, icon: Icon, color = '
   };
 
   return (
-    <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm hover:shadow-md transition">
+    <article
+      aria-label={`${title}: ${value}${badgeText ? `, ${badgeText}` : ''}`}
+      className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm hover:shadow-md transition"
+    >
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">{title}</p>
+          <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1" id={`stat-label-${title.replace(/\s+/g, '-')}`}>
+            {title}
+          </p>
           <div className="flex items-baseline gap-2">
-            <h3 className="text-2xl font-bold text-slate-900">{value}</h3>
+            <h3 className="text-2xl font-bold text-slate-900" aria-describedby={`stat-label-${title.replace(/\s+/g, '-')}`}>
+              {value}
+            </h3>
             {badgeText && (
-              <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full border ${badgeMap[badgeColor] || badgeMap.emerald}`}>
+              <span
+                className={`text-[11px] font-semibold px-2 py-0.5 rounded-full border ${badgeMap[badgeColor] || badgeMap.emerald}`}
+                aria-label={badgeText}
+              >
                 {badgeText}
               </span>
             )}
@@ -35,12 +46,16 @@ export default function StatCard({ title, value, subtitle, icon: Icon, color = '
           {subtitle && <p className="text-xs text-slate-500 mt-1">{subtitle}</p>}
         </div>
         {Icon && (
-          <div className={`p-3 rounded-xl border ${colorMap[color] || colorMap.teal}`}>
+          <div
+            className={`p-3 rounded-xl border ${colorMap[color] || colorMap.teal}`}
+            aria-hidden="true"
+            role="presentation"
+          >
             <Icon className="w-5 h-5" />
           </div>
         )}
       </div>
-    </div>
+    </article>
   );
 }
 
