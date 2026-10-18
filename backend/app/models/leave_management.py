@@ -9,7 +9,7 @@ from sqlalchemy import (
     Column, String, Integer, Boolean, DateTime, Date,
     ForeignKey, Float, Text, JSON
 )
-from backend.app.database import Base
+from app.database import Base
 
 
 class LeaveType(Base):

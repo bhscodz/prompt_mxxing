@@ -4,7 +4,7 @@
 import uuid
 from datetime import datetime
 from sqlalchemy import Column, String, Float, Integer, DateTime, ForeignKey, Text
-from backend.app.database import Base
+from app.database import Base
 
 class InterventionAlert(Base):
     __tablename__ = "intervention_alerts"

@@ -8,29 +8,29 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 
-from backend.app.config import settings
-from backend.app.database import init_db
-from backend.app.utils.seed_data import seed_database
-from backend.app.utils.websocket_manager import ws_manager
+from app.config import settings
+from app.database import init_db
+from app.utils.seed_data import seed_database
+from app.utils.websocket_manager import ws_manager
 
 # ── Phase 1: Import API Routers ────────────────────────────────────────────────
-from backend.app.api.facilities import router as facilities_router
-from backend.app.api.inventory import router as inventory_router
-from backend.app.api.footfall_crm import router as crm_router
-from backend.app.api.beds import router as beds_router
-from backend.app.api.attendance import router as attendance_router
-from backend.app.api.tests_audit import router as tests_router
-from backend.app.api.ai_forecasts import router as ai_router
-from backend.app.api.redistribution import router as redistribution_router
-from backend.app.api.interventions import router as interventions_router
-from backend.app.rpc.jsonrpc_server import rpc_router
+from app.api.facilities import router as facilities_router
+from app.api.inventory import router as inventory_router
+from app.api.footfall_crm import router as crm_router
+from app.api.beds import router as beds_router
+from app.api.attendance import router as attendance_router
+from app.api.tests_audit import router as tests_router
+from app.api.ai_forecasts import router as ai_router
+from app.api.redistribution import router as redistribution_router
+from app.api.interventions import router as interventions_router
+from app.rpc.jsonrpc_server import rpc_router
 
 # ── Phase 2: Import API Routers ────────────────────────────────────────────────
-from backend.app.api.auth import router as auth_router
-from backend.app.api.leave_management import router as leave_router
-from backend.app.api.forecasting import router as forecasting_router
-from backend.app.api.ai_agent import router as agent_router, agent_ws_router
-from backend.app.api.economics import router as economics_router
+from app.api.auth import router as auth_router
+from app.api.leave_management import router as leave_router
+from app.api.forecasting import router as forecasting_router
+from app.api.ai_agent import router as agent_router, agent_ws_router
+from app.api.economics import router as economics_router
 
 # Configure logging
 logging.basicConfig(
@@ -132,7 +132,7 @@ async def websocket_agent_chat(websocket: WebSocket):
             # Receive client message as JSON text
             raw = await websocket.receive_text()
             # Import here to avoid circular import at module load
-            from backend.app.ai_agent.handler import handle_agent_ws_message
+            from app.ai_agent.handler import handle_agent_ws_message
             await handle_agent_ws_message(websocket, raw)
     except WebSocketDisconnect:
         logger.info("AI Agent WebSocket client disconnected.")

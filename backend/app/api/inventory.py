@@ -5,16 +5,16 @@ from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
-from backend.app.database import get_db
-from backend.app.models.inventory import MedicineStock, StockTransaction
-from backend.app.models.facility import Facility
-from backend.app.schemas.inventory import (
+from app.database import get_db
+from app.models.inventory import MedicineStock, StockTransaction
+from app.models.facility import Facility
+from app.schemas.inventory import (
     MedicineStockCreate, MedicineStockUpdate, MedicineStockResponse,
     StockTransactionCreate, StockTransactionResponse
 )
-from backend.app.schemas.ml_forecasts import StockoutEarlyWarning
-from backend.app.ml.demand_forecaster import forecaster_service
-from backend.app.utils.websocket_manager import ws_manager
+from app.schemas.ml_forecasts import StockoutEarlyWarning
+from app.ml.demand_forecaster import forecaster_service
+from app.utils.websocket_manager import ws_manager
 
 router = APIRouter(prefix="/inventory", tags=["Inventory & Pharmacy"])
 

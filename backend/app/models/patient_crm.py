@@ -4,7 +4,7 @@
 import uuid
 from datetime import datetime
 from sqlalchemy import Column, String, Integer, Float, DateTime, ForeignKey, Text
-from backend.app.database import Base
+from app.database import Base
 
 class Patient(Base):
     __tablename__ = "patients"

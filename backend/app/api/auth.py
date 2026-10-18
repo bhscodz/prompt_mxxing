@@ -18,15 +18,15 @@ from fastapi import APIRouter, Depends, HTTPException, Request, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func
 
-from backend.app.database import get_db
-from backend.app.config import settings
-from backend.app.models.auth import User, UserSession, AuditLog, UserRole
-from backend.app.schemas.auth import (
+from app.database import get_db
+from app.config import settings
+from app.models.auth import User, UserSession, AuditLog, UserRole
+from app.schemas.auth import (
     UserCreate, LoginRequest, TokenResponse, RefreshTokenRequest,
     AccessTokenResponse, UserOut, UserProfileUpdate, UserRoleUpdate,
     AuditLogOut, PaginatedUsers, PaginatedAuditLogs
 )
-from backend.app.core.security import (
+from app.core.security import (
     hash_password, verify_password,
     create_access_token, create_refresh_token, decode_token,
     hash_token, get_current_user, require_roles

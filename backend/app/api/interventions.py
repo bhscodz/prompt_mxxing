@@ -6,13 +6,13 @@ from datetime import datetime
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
-from backend.app.database import get_db
-from backend.app.models.facility import Facility
-from backend.app.models.alerts_interventions import InterventionAlert
-from backend.app.schemas.alerts_interventions import (
+from app.database import get_db
+from app.models.facility import Facility
+from app.models.alerts_interventions import InterventionAlert
+from app.schemas.alerts_interventions import (
     InterventionAlertCreate, InterventionActionRequest, InterventionAlertResponse
 )
-from backend.app.utils.websocket_manager import ws_manager
+from app.utils.websocket_manager import ws_manager
 
 router = APIRouter(prefix="/interventions", tags=["District Administrative Interventions"])
 

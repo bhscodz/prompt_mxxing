@@ -10,7 +10,7 @@ from sqlalchemy import (
     Text, Enum as SAEnum
 )
 from sqlalchemy.orm import relationship
-from backend.app.database import Base
+from app.database import Base
 
 
 # ---------------------------------------------------------------------------

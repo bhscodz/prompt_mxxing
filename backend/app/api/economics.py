@@ -11,12 +11,12 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func, and_
 
-from backend.app.database import get_db
-from backend.app.models.economics import (
+from app.database import get_db
+from app.models.economics import (
     BudgetAllocation, Expenditure, PurchaseOrder, MonthlyBudgetSummary
 )
-from backend.app.models.alerts_interventions import InterventionAlert
-from backend.app.schemas.economics import (
+from app.models.alerts_interventions import InterventionAlert
+from app.schemas.economics import (
     BudgetAllocationCreate, BudgetAllocationResponse,
     ExpenditureCreate, ExpenditureResponse,
     PurchaseOrderCreate, PurchaseOrderResponse, PurchaseOrderStatusUpdate,

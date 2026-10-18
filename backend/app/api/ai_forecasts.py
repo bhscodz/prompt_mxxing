@@ -5,11 +5,11 @@ from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
-from backend.app.database import get_db
-from backend.app.models.facility import Facility
-from backend.app.models.inventory import MedicineStock
-from backend.app.schemas.ml_forecasts import ForecastSeries, StockoutEarlyWarning
-from backend.app.ml.demand_forecaster import forecaster_service
+from app.database import get_db
+from app.models.facility import Facility
+from app.models.inventory import MedicineStock
+from app.schemas.ml_forecasts import ForecastSeries, StockoutEarlyWarning
+from app.ml.demand_forecaster import forecaster_service
 
 router = APIRouter(prefix="/ai", tags=["AI Demand Forecasting"])
 

@@ -16,8 +16,8 @@ from typing import List, Optional, Dict, Any
 
 import numpy as np
 
-from backend.app.config import settings
-from backend.app.ml.forecast_router import ForecastRouter
+from app.config import settings
+from app.ml.forecast_router import ForecastRouter
 
 logger = logging.getLogger("swasthya.ml.alert_engine")
 

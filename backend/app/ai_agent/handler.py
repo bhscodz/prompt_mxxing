@@ -10,8 +10,8 @@ from typing import Optional
 from fastapi import WebSocket
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from backend.app.database import get_db_context
-from backend.app.ai_agent.agent import run_agent
+from app.database import get_db_context
+from app.ai_agent.agent import run_agent
 
 logger = logging.getLogger("swasthya.agent.handler")
 

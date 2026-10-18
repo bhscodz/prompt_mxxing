@@ -5,7 +5,7 @@ import logging
 from typing import AsyncGenerator
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 from sqlalchemy.orm import declarative_base
-from backend.app.config import settings
+from app.config import settings
 
 logger = logging.getLogger("swasthya.db")
 

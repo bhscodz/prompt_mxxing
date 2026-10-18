@@ -7,7 +7,7 @@ from datetime import datetime
 from sqlalchemy import (
     Column, String, Float, Integer, DateTime, Date, ForeignKey, Text
 )
-from backend.app.database import Base
+from app.database import Base
 
 
 class BudgetAllocation(Base):

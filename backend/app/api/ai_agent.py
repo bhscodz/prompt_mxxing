@@ -11,10 +11,10 @@ from fastapi import APIRouter, Depends, WebSocket, WebSocketDisconnect, HTTPExce
 from pydantic import BaseModel
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from backend.app.database import get_db
-from backend.app.ai_agent.agent import run_agent, detect_language, classify_intent, INTENTS
-from backend.app.core.security import get_current_user
-from backend.app.models.auth import User
+from app.database import get_db
+from app.ai_agent.agent import run_agent, detect_language, classify_intent, INTENTS
+from app.core.security import get_current_user
+from app.models.auth import User
 
 logger = logging.getLogger("swasthya.api.agent")
 

@@ -7,13 +7,13 @@ from datetime import datetime, date
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func
-from backend.app.database import get_db
-from backend.app.models.patient_crm import Patient, OPDVisit
-from backend.app.models.facility import Facility
-from backend.app.schemas.patient_crm import (
+from app.database import get_db
+from app.models.patient_crm import Patient, OPDVisit
+from app.models.facility import Facility
+from app.schemas.patient_crm import (
     PatientCreate, PatientResponse, OPDVisitCreate, OPDVisitUpdate, OPDVisitResponse
 )
-from backend.app.utils.websocket_manager import ws_manager
+from app.utils.websocket_manager import ws_manager
 
 router = APIRouter(prefix="/crm", tags=["Patient CRM & Footfall"])
 

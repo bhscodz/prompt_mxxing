@@ -8,7 +8,7 @@ from datetime import datetime
 from typing import Optional, Any, Dict
 from pydantic import BaseModel, EmailStr, Field, field_validator
 
-from backend.app.models.auth import UserRole, SupportedLanguage
+from app.models.auth import UserRole, SupportedLanguage
 
 
 # ---------------------------------------------------------------------------

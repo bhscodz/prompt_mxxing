@@ -15,7 +15,7 @@ from typing import Optional, Dict, Any, TypedDict
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func
 
-from backend.app.config import settings
+from app.config import settings
 
 logger = logging.getLogger("swasthya.agent")
 
@@ -191,7 +191,7 @@ _TEMPLATES: Dict[str, Dict[str, str]] = {
 # ---------------------------------------------------------------------------
 
 async def _query_inventory(db: AsyncSession, facility_id: Optional[str]) -> Dict[str, Any]:
-    from backend.app.models.inventory import MedicineStock
+    from app.models.inventory import MedicineStock
     q = select(MedicineStock)
     if facility_id:
         q = q.where(MedicineStock.facility_id == facility_id)
@@ -203,7 +203,7 @@ async def _query_inventory(db: AsyncSession, facility_id: Optional[str]) -> Dict
 
 
 async def _query_footfall(db: AsyncSession, facility_id: Optional[str]) -> Dict[str, Any]:
-    from backend.app.models.patient_crm import OPDVisit
+    from app.models.patient_crm import OPDVisit
     from datetime import date
     today = date.today()
     q = select(OPDVisit)
@@ -217,7 +217,7 @@ async def _query_footfall(db: AsyncSession, facility_id: Optional[str]) -> Dict[
 
 
 async def _query_beds(db: AsyncSession, facility_id: Optional[str]) -> Dict[str, Any]:
-    from backend.app.models.beds import Bed
+    from app.models.beds import Bed
     q = select(Bed)
     if facility_id:
         q = q.where(Bed.facility_id == facility_id)
@@ -230,7 +230,7 @@ async def _query_beds(db: AsyncSession, facility_id: Optional[str]) -> Dict[str,
 
 
 async def _query_staff(db: AsyncSession, facility_id: Optional[str]) -> Dict[str, Any]:
-    from backend.app.models.staff_attendance import DoctorStaff
+    from app.models.staff_attendance import DoctorStaff
     from datetime import date
     q = select(DoctorStaff)
     if facility_id:
@@ -244,7 +244,7 @@ async def _query_staff(db: AsyncSession, facility_id: Optional[str]) -> Dict[str
 
 
 async def _query_alerts(db: AsyncSession, facility_id: Optional[str]) -> Dict[str, Any]:
-    from backend.app.models.alerts_interventions import InterventionAlert
+    from app.models.alerts_interventions import InterventionAlert
     q = select(InterventionAlert)
     if facility_id:
         q = q.where(InterventionAlert.facility_id == facility_id)
@@ -256,7 +256,7 @@ async def _query_alerts(db: AsyncSession, facility_id: Optional[str]) -> Dict[st
 
 
 async def _query_economics(db: AsyncSession, facility_id: Optional[str]) -> Dict[str, Any]:
-    from backend.app.models.economics import BudgetAllocation, Expenditure
+    from app.models.economics import BudgetAllocation, Expenditure
     from datetime import datetime
     year = datetime.utcnow().year
 
@@ -346,7 +346,7 @@ async def run_agent(
     facility_name = facility_id or "District"
     if facility_id:
         try:
-            from backend.app.models.facility import Facility
+            from app.models.facility import Facility
             res = await db.execute(select(Facility).where(Facility.id == facility_id))
             fac = res.scalar_one_or_none()
             if fac:

@@ -32,9 +32,9 @@ except ImportError:  # pragma: no cover
     _pwd_context = None
     logger.warning("passlib not installed; password hashing will use SHA-256 fallback.")
 
-from backend.app.config import settings
-from backend.app.database import get_db
-from backend.app.models.auth import User, UserRole
+from app.config import settings
+from app.database import get_db
+from app.models.auth import User, UserRole
 
 # HTTP Bearer token extractor (reads Authorization: Bearer <token>)
 bearer_scheme = HTTPBearer(auto_error=False)

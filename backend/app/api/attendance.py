@@ -6,12 +6,12 @@ from datetime import datetime
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
-from backend.app.database import get_db
-from backend.app.models.staff_attendance import DoctorStaff
-from backend.app.schemas.staff_attendance import (
+from app.database import get_db
+from app.models.staff_attendance import DoctorStaff
+from app.schemas.staff_attendance import (
     DoctorStaffCreate, PunchInRequest, DoctorStaffResponse
 )
-from backend.app.utils.websocket_manager import ws_manager
+from app.utils.websocket_manager import ws_manager
 
 router = APIRouter(prefix="/attendance", tags=["Doctor & Staff Attendance"])
 

@@ -6,7 +6,7 @@ import torch
 import numpy as np
 from datetime import datetime, timedelta
 from typing import List, Dict, Any, Optional
-from backend.app.ml.time_series_transformer import TimeSeriesTransformer
+from app.ml.time_series_transformer import TimeSeriesTransformer
 
 class DemandForecasterService:
     def __init__(self, forecast_horizon: int = 14, lookback_days: int = 30):

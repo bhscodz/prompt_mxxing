@@ -11,16 +11,16 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func
 
-from backend.app.database import get_db
-from backend.app.config import settings
-from backend.app.models.inventory import MedicineStock, StockTransaction
-from backend.app.models.patient_crm import OPDVisit
-from backend.app.models.beds import Bed
-from backend.app.models.economics import PurchaseOrder
-from backend.app.ml.forecast_router import ForecastRouter
-from backend.app.ml.alert_engine import run_all_alerts, check_forecasted_depletion
-from backend.app.core.security import get_current_user
-from backend.app.models.auth import User
+from app.database import get_db
+from app.config import settings
+from app.models.inventory import MedicineStock, StockTransaction
+from app.models.patient_crm import OPDVisit
+from app.models.beds import Bed
+from app.models.economics import PurchaseOrder
+from app.ml.forecast_router import ForecastRouter
+from app.ml.alert_engine import run_all_alerts, check_forecasted_depletion
+from app.core.security import get_current_user
+from app.models.auth import User
 
 router = APIRouter(prefix="/forecasting", tags=["Advanced Forecasting"])
 logger = logging.getLogger("swasthya.api.forecasting")

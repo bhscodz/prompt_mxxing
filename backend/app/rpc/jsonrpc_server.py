@@ -9,14 +9,14 @@ from pydantic import BaseModel
 from fastapi import APIRouter, Depends, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, update
-from backend.app.database import get_db
-from backend.app.models.facility import Facility
-from backend.app.models.inventory import MedicineStock, StockTransaction
-from backend.app.models.patient_crm import Patient, OPDVisit
-from backend.app.models.beds import Bed
-from backend.app.models.staff_attendance import DoctorStaff
-from backend.app.ml.demand_forecaster import forecaster_service
-from backend.app.ml.redistribution_engine import redistribution_engine
+from app.database import get_db
+from app.models.facility import Facility
+from app.models.inventory import MedicineStock, StockTransaction
+from app.models.patient_crm import Patient, OPDVisit
+from app.models.beds import Bed
+from app.models.staff_attendance import DoctorStaff
+from app.ml.demand_forecaster import forecaster_service
+from app.ml.redistribution_engine import redistribution_engine
 
 logger = logging.getLogger("swasthya.rpc")
 

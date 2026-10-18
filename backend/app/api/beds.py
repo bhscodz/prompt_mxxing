@@ -6,10 +6,10 @@ from datetime import datetime
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
-from backend.app.database import get_db
-from backend.app.models.beds import Bed
-from backend.app.schemas.beds import BedCreate, BedUpdate, BedAllocateRequest, BedResponse
-from backend.app.utils.websocket_manager import ws_manager
+from app.database import get_db
+from app.models.beds import Bed
+from app.schemas.beds import BedCreate, BedUpdate, BedAllocateRequest, BedResponse
+from app.utils.websocket_manager import ws_manager
 
 router = APIRouter(prefix="/beds", tags=["Bed Management"])
 

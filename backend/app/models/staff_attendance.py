@@ -4,7 +4,7 @@
 import uuid
 from datetime import datetime
 from sqlalchemy import Column, String, Boolean, DateTime, ForeignKey
-from backend.app.database import Base
+from app.database import Base
 
 class DoctorStaff(Base):
     __tablename__ = "doctor_staff"

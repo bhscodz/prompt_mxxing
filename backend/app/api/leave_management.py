@@ -12,12 +12,12 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func, and_, or_
 
-from backend.app.database import get_db
-from backend.app.models.leave_management import (
+from app.database import get_db
+from app.models.leave_management import (
     LeaveType, LeaveRequest, LeaveApproval, LeaveBalance, ShiftCoverage
 )
-from backend.app.models.staff_attendance import DoctorStaff
-from backend.app.schemas.leave_management import (
+from app.models.staff_attendance import DoctorStaff
+from app.schemas.leave_management import (
     LeaveTypeCreate, LeaveTypeResponse,
     LeaveRequestCreate, LeaveRequestResponse, LeaveRequestListResponse,
     LeaveApprovalSummary,
@@ -682,7 +682,7 @@ async def get_coverage_gaps(
     # Fetch facility name if facility_id provided
     facility_name = None
     if facility_id:
-        from backend.app.models.facility import Facility
+        from app.models.facility import Facility
         fac_res = await db.execute(
             select(Facility.name).where(Facility.id == facility_id)
         )

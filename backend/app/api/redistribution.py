@@ -6,15 +6,15 @@ from datetime import datetime
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
-from backend.app.database import get_db
-from backend.app.models.facility import Facility
-from backend.app.models.inventory import MedicineStock
-from backend.app.models.alerts_interventions import RedistributionTransfer
-from backend.app.schemas.alerts_interventions import (
+from app.database import get_db
+from app.models.facility import Facility
+from app.models.inventory import MedicineStock
+from app.models.alerts_interventions import RedistributionTransfer
+from app.schemas.alerts_interventions import (
     RedistributionTransferCreate, TransferActionRequest, RedistributionTransferResponse
 )
-from backend.app.ml.redistribution_engine import redistribution_engine
-from backend.app.utils.websocket_manager import ws_manager
+from app.ml.redistribution_engine import redistribution_engine
+from app.utils.websocket_manager import ws_manager
 
 router = APIRouter(prefix="/redistribution", tags=["Intra-District Redistribution"])
 

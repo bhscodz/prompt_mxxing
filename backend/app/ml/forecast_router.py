@@ -12,9 +12,9 @@ import logging
 import numpy as np
 from typing import Dict, Any, Optional, Literal
 
-from backend.app.ml.patchtst import PatchTSTForecaster
-from backend.app.ml.xgboost_forecaster import XGBoostForecaster
-from backend.app.ml.arima_forecaster import ARIMAForecaster
+from app.ml.patchtst import PatchTSTForecaster
+from app.ml.xgboost_forecaster import XGBoostForecaster
+from app.ml.arima_forecaster import ARIMAForecaster
 
 logger = logging.getLogger("swasthya.ml.forecast_router")
 

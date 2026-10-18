@@ -5,12 +5,12 @@ from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func
-from backend.app.database import get_db
-from backend.app.models.facility import Facility
-from backend.app.models.inventory import MedicineStock
-from backend.app.models.beds import Bed
-from backend.app.models.staff_attendance import DoctorStaff
-from backend.app.schemas.facility import FacilityCreate, FacilityUpdate, FacilityResponse
+from app.database import get_db
+from app.models.facility import Facility
+from app.models.inventory import MedicineStock
+from app.models.beds import Bed
+from app.models.staff_attendance import DoctorStaff
+from app.schemas.facility import FacilityCreate, FacilityUpdate, FacilityResponse
 
 router = APIRouter(prefix="/facilities", tags=["Facilities"])
 

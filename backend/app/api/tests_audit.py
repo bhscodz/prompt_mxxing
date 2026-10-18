@@ -6,12 +6,12 @@ from datetime import datetime
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
-from backend.app.database import get_db
-from backend.app.models.diagnostic_tests import DiagnosticTest
-from backend.app.schemas.diagnostic_tests import (
+from app.database import get_db
+from app.models.diagnostic_tests import DiagnosticTest
+from app.schemas.diagnostic_tests import (
     DiagnosticTestCreate, DiagnosticTestUpdate, DiagnosticTestResponse
 )
-from backend.app.utils.websocket_manager import ws_manager
+from app.utils.websocket_manager import ws_manager
 
 router = APIRouter(prefix="/diagnostic-tests", tags=["Diagnostic Audits"])
 

@@ -10,14 +10,14 @@ from datetime import datetime, date, timedelta
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../..")))
 
 from sqlalchemy import select
-from backend.app.database import AsyncSessionLocal, init_db
-from backend.app.models.facility import Facility
-from backend.app.models.inventory import MedicineStock, StockTransaction
-from backend.app.models.patient_crm import Patient, OPDVisit
-from backend.app.models.beds import Bed
-from backend.app.models.staff_attendance import DoctorStaff
-from backend.app.models.diagnostic_tests import DiagnosticTest
-from backend.app.models.alerts_interventions import InterventionAlert, RedistributionTransfer
+from app.database import AsyncSessionLocal, init_db
+from app.models.facility import Facility
+from app.models.inventory import MedicineStock, StockTransaction
+from app.models.patient_crm import Patient, OPDVisit
+from app.models.beds import Bed
+from app.models.staff_attendance import DoctorStaff
+from app.models.diagnostic_tests import DiagnosticTest
+from app.models.alerts_interventions import InterventionAlert, RedistributionTransfer
 
 SEED_FACILITIES = [
     {
@@ -346,10 +346,10 @@ if __name__ == "__main__":
 
 async def seed_phase2(session, facility_objs):
     """Seed Phase 2 models: users, leave types, budgets, purchase orders."""
-    from backend.app.models.auth import User, UserRole, SupportedLanguage
-    from backend.app.models.leave_management import LeaveType
-    from backend.app.models.economics import BudgetAllocation, PurchaseOrder
-    from backend.app.core.security import hash_password
+    from app.models.auth import User, UserRole, SupportedLanguage
+    from app.models.leave_management import LeaveType
+    from app.models.economics import BudgetAllocation, PurchaseOrder
+    from app.core.security import hash_password
 
     # Check if already seeded
     user_check = await session.execute(select(User))
