@@ -1,0 +1,64 @@
+// File: frontend/src/components/LanguageSelector.jsx
+// Description: Language dropdown switcher supporting 6 Indian languages with native scripts
+
+import React, { useState, useRef, useEffect } from 'react';
+import { useLanguage } from '../i18n/LanguageContext';
+import { Globe, Check, ChevronDown } from 'lucide-react';
+
+export default function LanguageSelector() {
+  const { currentLang, setLanguage, languages } = useLanguage();
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const activeLang = languages.find(l => l.code === currentLang) || languages[0];
+
+  return (
+    <div className="relative" ref={dropdownRef}>
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 transition text-sm font-medium text-slate-700 shadow-sm"
+      >
+        <Globe className="w-4 h-4 text-teal-600" />
+        <span>{activeLang.native}</span>
+        <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+      </button>
+
+      {isOpen && (
+        <div className="absolute right-0 mt-2 w-48 rounded-xl bg-white shadow-xl border border-slate-100 py-1.5 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+          <div className="px-3 py-1 text-xs font-semibold text-slate-400 uppercase tracking-wider">
+            Select Language
+          </div>
+          {languages.map((lang) => (
+            <button
+              key={lang.code}
+              onClick={() => {
+                setLanguage(lang.code);
+                setIsOpen(false);
+              }}
+              className={`w-full flex items-center justify-between px-3 py-2 text-sm text-left hover:bg-teal-50 transition ${
+                currentLang === lang.code ? 'font-semibold text-teal-700 bg-teal-50/60' : 'text-slate-700'
+              }`}
+            >
+              <div>
+                <div className="leading-tight">{lang.native}</div>
+                <div className="text-[11px] text-slate-400">{lang.label}</div>
+              </div>
+              {currentLang === lang.code && <Check className="w-4 h-4 text-teal-600" />}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
