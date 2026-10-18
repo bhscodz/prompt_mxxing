@@ -1,0 +1,65 @@
+# =====================================================================
+# .gitignore — SwasthyaGrid AI
+# Excludes secrets, build artifacts, venvs, and local databases
+# =====================================================================
+
+# ── Secrets & Environment ────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+
+# ── Python ───────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ── Virtual environments ─────────────────────────────────────────────
+.venv/
+venv/
+ENV/
+env/
+
+# ── Local SQLite database (dev only, PostgreSQL used in prod) ────────
+*.db
+*.sqlite
+*.sqlite3
+
+# ── ML model weights (large binaries — track via Git LFS if needed) ──
+backend/app/ml/weights/*.pt
+backend/app/ml/weights/*.pth
+backend/app/ml/weights/*.ckpt
+backend/app/ml/weights/*.bin
+
+# ── Node / Frontend ──────────────────────────────────────────────────
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# ── IDE & OS ─────────────────────────────────────────────────────────
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Docker volumes / generated data ──────────────────────────────────
+postgres_data/
+*.log
+
+# ── Kiro agent internals (not project source) ────────────────────────
+.kiro/
